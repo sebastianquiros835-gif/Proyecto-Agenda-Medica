@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button1);
             this.Name = "InterfazGrafica";
-            this.Text = "InterfazGrafica";
+            this.Load += new System.EventHandler(this.InterfazGrafica_Load);
             this.ResumeLayout(false);
 
         }

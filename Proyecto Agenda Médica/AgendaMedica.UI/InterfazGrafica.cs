@@ -16,5 +16,10 @@ namespace Proyecto_Agenda_Médica.AgendaMedica.UI
         {
             InitializeComponent();
         }
+
+        private void InterfazGrafica_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

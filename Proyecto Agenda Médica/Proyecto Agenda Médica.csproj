@@ -46,6 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgendaMedica.bl\ServiceValidacion.cs" />
+    <Compile Include="AgendaMedica.dal\ConexionRepositorios.cs" />
+    <Compile Include="AgendaMedica.UI\InterfazGrafica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgendaMedica.UI\InterfazGrafica.Designer.cs">
+      <DependentUpon>InterfazGrafica.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +62,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AgendaMedica.UI\InterfazGrafica.resx">
+      <DependentUpon>InterfazGrafica.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -79,5 +90,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="Proyecto Agenda Médica/Proyecto Agenda Médica.csproj" />
+  <Project Path="Proyecto Agenda Médica/Proyecto Agenda Médica.csproj" Id="596793a2-ecde-4d3f-922a-39a949e052ca" />
+  <Project Path="prueba/prueba.csproj" Id="cbe85878-5683-48e2-9407-e6255f3cfdc9" />
 </Solution>

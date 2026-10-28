@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Proyecto_Agenda_Médica
+namespace AgendaMedica_UL
 {
     internal static class Program
     {

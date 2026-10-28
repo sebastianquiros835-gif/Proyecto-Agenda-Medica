@@ -1,4 +1,5 @@
 <Solution>
-  <Project Path="Proyecto Agenda Médica/Proyecto Agenda Médica.csproj" Id="596793a2-ecde-4d3f-922a-39a949e052ca" />
-  <Project Path="prueba/prueba.csproj" Id="cbe85878-5683-48e2-9407-e6255f3cfdc9" />
+  <Project Path="AgendaMedica.BL/AgendaMedica_BL.csproj" Id="842ec58b-e9da-41a0-9777-941781fbcbe7" />
+  <Project Path="AgendaMedica_DAL/AgendaMedica_DAL.csproj" Id="c78be36b-6f2d-4a81-863e-d5f7c9219dee" />
+  <Project Path="AgendaMedica_UL/AgendaMedica_UL.csproj" Id="761057e7-b522-4526-98a5-656e531a5efe" />
 </Solution>

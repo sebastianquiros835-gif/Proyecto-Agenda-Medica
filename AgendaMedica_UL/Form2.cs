@@ -18,7 +18,7 @@ namespace AgendaMedica_DAL
             InitializeComponent();
         }
 
-        MySqlconection ob = new MySqlconection("datasource=127.0.0.1; port=3306; username=root;password = *A123456789* = database=agenda_medica");
+        MySqlConnection ob = new MySqlConnection("datasource=127.0.0.1; port=3306; username=root;password = *A123456789* = database=agenda_medica");
         private void btnConectar_Click(object sender, EventArgs e)
         {
             try
@@ -40,6 +40,11 @@ namespace AgendaMedica_DAL
                 ob.Close();
                 this.Close();
             }
+        }
+
+        private void dgvConector_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

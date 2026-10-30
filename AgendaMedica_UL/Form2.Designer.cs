@@ -43,6 +43,7 @@
             this.dgvConector.RowTemplate.Height = 24;
             this.dgvConector.Size = new System.Drawing.Size(284, 124);
             this.dgvConector.TabIndex = 0;
+            this.dgvConector.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConector_CellContentClick);
             // 
             // btnConectar
             // 
@@ -64,7 +65,7 @@
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // Form1
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,7 +73,7 @@
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnConectar);
             this.Controls.Add(this.dgvConector);
-            this.Name = "Form1";
+            this.Name = "Form2";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dgvConector)).EndInit();
             this.ResumeLayout(false);

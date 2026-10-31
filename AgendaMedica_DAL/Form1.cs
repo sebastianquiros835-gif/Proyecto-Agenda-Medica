@@ -19,17 +19,32 @@ namespace AgendaMedica_DAL
         }
 
         MySqlconection ob = new MySqlconection("datasource=127.0.0.1; port=3306; username=root;password = *A123456789* = database=agenda_medica");
+        private void BtnConectar_Click(object sender, EventArgs e)
         private void btnConectar_Click(object sender, EventArgs e)
         {
             try
-
             {   
+                if (ob.State == ConnectionState.Closed)
+                {
                 ob.Open();
-                MessageBox.Show("Conexión exitosa");
+                }
+
+                string consulta = "SELECT * FROM personal";
+
+                MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, ob);
+
+                DataTable tabla = new DataTable();
+
+                adaptador.Fill(tabla);
+
+                dgvConector.DataSource = tabla;
+
+                MessageBox.Show("Datos de la tabla personal cargados correctamente");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("no se pudo conectar a la base de datos");
+                MessageBox.Show("Error: " + ex.Message);
+            }
             }
         }
 

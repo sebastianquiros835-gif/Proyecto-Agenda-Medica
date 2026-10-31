@@ -43,6 +43,7 @@
             this.dgvConector.RowTemplate.Height = 24;
             this.dgvConector.Size = new System.Drawing.Size(284, 124);
             this.dgvConector.TabIndex = 0;
+            this.dgvConector.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConector_CellContentClick);
             // 
             // btnConectar
             // 
@@ -56,7 +57,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(332, 278);
+            this.btnSalir.Location = new System.Drawing.Point(342, 286);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(67, 28);
             this.btnSalir.TabIndex = 2;

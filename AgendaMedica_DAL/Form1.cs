@@ -6,13 +6,13 @@ using MySql.Data.MySqlClient;
 
 namespace AgendaMedica_DAL
 {
-    public partial class Form1 : Form
+    public partial class form1 : Form
     {
         MySqlConnection ob = new MySqlConnection(
             "server=127.0.0.1;port=3306;user id=root;password=*A123456789*;database=agenda_medica;"
         );
 
-        public Form1()
+        public form1()
         {
             InitializeComponent();
         }

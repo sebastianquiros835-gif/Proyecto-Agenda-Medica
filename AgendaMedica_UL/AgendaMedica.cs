@@ -8,15 +8,76 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using AgendaMedica_BL;
 
 namespace AgendaMedica_DAL
 {
-    public partial class Form2 : Form
+    public partial class AgendaMedica : Form
     {
-        public Form2()
+        private readonly PersonalBL personalBL = new PersonalBL();
+
+
+        public AgendaMedica()
         {
             InitializeComponent();
+            
         }
+        private void CargarDepartamentos()
+        {
+            DataTable departamentos = personalBL.ObtenerDepartamentos();
+
+            cmbDepartamento.DataSource = departamentos;
+            cmbDepartamento.DisplayMember = "nombre";
+            cmbDepartamento.ValueMember = "id_departamento";
+            cmbDepartamento.SelectedIndex = -1;
+        }
+
+        private void CargarPersonal()
+        {
+            DataTable tabla = personalBL.ObtenerTodos();
+
+            dgvConector.DataSource = tabla;
+
+            dgvConector.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvConector.ReadOnly = true;
+            dgvConector.AllowUserToAddRows = false;
+            dgvConector.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dgvConector.MultiSelect = false;
+
+            // Ocultar el identificador interno del departamento.
+            if (dgvConector.Columns.Contains("id_departamento"))
+            {
+                dgvConector.Columns["id_departamento"].Visible = false;
+            }
+        }
+        private void AgendaMedica_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                CargarDepartamentos();
+
+                cmbEstado.Items.Clear();
+                cmbEstado.Items.Add("Activo");
+                cmbEstado.Items.Add("Inactivo");
+                cmbEstado.SelectedItem = "Activo";
+
+                CargarPersonal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
 
         //esta parte es la mas importante ya que aqui se hace la conexion a la base de datos y se llena el datagridview con los datos de la tabla personal
         MySqlConnection ob = new MySqlConnection(
@@ -439,10 +500,7 @@ namespace AgendaMedica_DAL
             tabla.Rows.Add("", campo, informacion);
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
+        
     }
     }
 

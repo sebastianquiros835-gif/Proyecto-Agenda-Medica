@@ -36,7 +36,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtCorreo = new System.Windows.Forms.TextBox();
-            this.txtIdentificcacion = new System.Windows.Forms.TextBox();
+            this.txtIdentificacion = new System.Windows.Forms.TextBox();
             this.txtRol = new System.Windows.Forms.TextBox();
             this.txtApellidos = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.cmbEstado = new System.Windows.Forms.ComboBox();
             this.txtIDpersonal = new System.Windows.Forms.TextBox();
             this.lblIDpersonal = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtEspecialidad = new System.Windows.Forms.TextBox();
             this.lblEspecialidad = new System.Windows.Forms.Label();
             this.lblEstado = new System.Windows.Forms.Label();
             this.lblDepartamento = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@
             // 
             // btnConectar
             // 
-            this.btnConectar.Location = new System.Drawing.Point(735, 15);
+            this.btnConectar.Location = new System.Drawing.Point(735, 36);
             this.btnConectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnConectar.Name = "btnConectar";
             this.btnConectar.Size = new System.Drawing.Size(89, 41);
@@ -86,10 +86,10 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(774, 370);
+            this.btnSalir.Location = new System.Drawing.Point(749, 350);
             this.btnSalir.Margin = new System.Windows.Forms.Padding(2);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(50, 23);
+            this.btnSalir.Size = new System.Drawing.Size(75, 23);
             this.btnSalir.TabIndex = 2;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(541, 235);
+            this.txtID.Location = new System.Drawing.Point(541, 155);
             this.txtID.Margin = new System.Windows.Forms.Padding(2);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(74, 20);
@@ -106,7 +106,7 @@
             // 
             // btnID
             // 
-            this.btnID.Location = new System.Drawing.Point(553, 203);
+            this.btnID.Location = new System.Drawing.Point(541, 194);
             this.btnID.Margin = new System.Windows.Forms.Padding(2);
             this.btnID.Name = "btnID";
             this.btnID.Size = new System.Drawing.Size(74, 28);
@@ -136,12 +136,12 @@
             this.txtCorreo.Size = new System.Drawing.Size(100, 20);
             this.txtCorreo.TabIndex = 7;
             // 
-            // txtIdentificcacion
+            // txtIdentificacion
             // 
-            this.txtIdentificcacion.Location = new System.Drawing.Point(257, 155);
-            this.txtIdentificcacion.Name = "txtIdentificcacion";
-            this.txtIdentificcacion.Size = new System.Drawing.Size(100, 20);
-            this.txtIdentificcacion.TabIndex = 8;
+            this.txtIdentificacion.Location = new System.Drawing.Point(257, 155);
+            this.txtIdentificacion.Name = "txtIdentificacion";
+            this.txtIdentificacion.Size = new System.Drawing.Size(100, 20);
+            this.txtIdentificacion.TabIndex = 8;
             // 
             // txtRol
             // 
@@ -243,12 +243,12 @@
             this.lblIDpersonal.TabIndex = 20;
             this.lblIDpersonal.Text = "ID personal ";
             // 
-            // textBox1
+            // txtEspecialidad
             // 
-            this.textBox1.Location = new System.Drawing.Point(70, 116);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 21;
+            this.txtEspecialidad.Location = new System.Drawing.Point(70, 116);
+            this.txtEspecialidad.Name = "txtEspecialidad";
+            this.txtEspecialidad.Size = new System.Drawing.Size(100, 20);
+            this.txtEspecialidad.TabIndex = 21;
             // 
             // lblEspecialidad
             // 
@@ -285,6 +285,7 @@
             this.btnGuardar.TabIndex = 25;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnConsultar
             // 
@@ -335,7 +336,7 @@
             this.Controls.Add(this.lblDepartamento);
             this.Controls.Add(this.lblEstado);
             this.Controls.Add(this.lblEspecialidad);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtEspecialidad);
             this.Controls.Add(this.lblIDpersonal);
             this.Controls.Add(this.txtIDpersonal);
             this.Controls.Add(this.cmbEstado);
@@ -348,7 +349,7 @@
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.txtApellidos);
             this.Controls.Add(this.txtRol);
-            this.Controls.Add(this.txtIdentificcacion);
+            this.Controls.Add(this.txtIdentificacion);
             this.Controls.Add(this.txtCorreo);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.txtNombre);
@@ -377,7 +378,7 @@
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtCorreo;
-        private System.Windows.Forms.TextBox txtIdentificcacion;
+        private System.Windows.Forms.TextBox txtIdentificacion;
         private System.Windows.Forms.TextBox txtRol;
         private System.Windows.Forms.TextBox txtApellidos;
         private System.Windows.Forms.Label lblNombre;
@@ -390,7 +391,7 @@
         private System.Windows.Forms.ComboBox cmbEstado;
         private System.Windows.Forms.TextBox txtIDpersonal;
         private System.Windows.Forms.Label lblIDpersonal;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtEspecialidad;
         private System.Windows.Forms.Label lblEspecialidad;
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.Label lblDepartamento;

@@ -500,7 +500,68 @@ namespace AgendaMedica_DAL
             tabla.Rows.Add("", campo, informacion);
         }
 
-        
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Comprobar que exista un departamento seleccionado
+                if (cmbDepartamento.SelectedIndex == -1 ||
+                    cmbDepartamento.SelectedValue == null)
+                {
+                    MessageBox.Show("Seleccione un departamento.");
+                    cmbDepartamento.Focus();
+                    return;
+                }
+
+                // 2. Obtener el ID del departamento seleccionado
+                int idDepartamento =
+                    Convert.ToInt32(cmbDepartamento.SelectedValue);
+
+                // 3. Enviar los datos a la capa BL
+                personalBL.Insertar(
+                    txtNombre.Text,
+                    txtApellidos.Text,
+                    txtIdentificacion.Text,
+                    txtTelefono.Text,
+                    txtCorreo.Text,
+                    txtEspecialidad.Text,
+                    txtRol.Text,
+                    idDepartamento
+                );
+
+                // 4. Actualizar el DataGridView
+                CargarPersonal();
+
+                // 5. Limpiar los campos
+                txtNombre.Clear();
+                txtApellidos.Clear();
+                txtIdentificacion.Clear();
+                txtTelefono.Clear();
+                txtCorreo.Clear();
+                txtEspecialidad.Clear();
+                txtRol.Clear();
+
+                cmbDepartamento.SelectedIndex = -1;
+                cmbEstado.SelectedItem = "Activo";
+
+                // 6. Mostrar confirmación
+                MessageBox.Show(
+                    "Empleado registrado correctamente.",
+                    "Registro exitoso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al guardar el empleado: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
     }
     }
 

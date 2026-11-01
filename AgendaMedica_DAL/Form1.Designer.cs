@@ -38,7 +38,7 @@
             // 
             this.dgvConector.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvConector.Location = new System.Drawing.Point(174, 56);
-            this.dgvConector.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvConector.Margin = new System.Windows.Forms.Padding(2);
             this.dgvConector.Name = "dgvConector";
             this.dgvConector.RowHeadersWidth = 51;
             this.dgvConector.RowTemplate.Height = 24;
@@ -49,7 +49,7 @@
             // btnConectar
             // 
             this.btnConectar.Location = new System.Drawing.Point(239, 169);
-            this.btnConectar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnConectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnConectar.Name = "btnConectar";
             this.btnConectar.Size = new System.Drawing.Size(68, 41);
             this.btnConectar.TabIndex = 1;
@@ -59,8 +59,8 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(256, 232);
-            this.btnSalir.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSalir.Location = new System.Drawing.Point(239, 225);
+            this.btnSalir.Margin = new System.Windows.Forms.Padding(2);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(50, 23);
             this.btnSalir.TabIndex = 2;
@@ -76,7 +76,7 @@
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnConectar);
             this.Controls.Add(this.dgvConector);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dgvConector)).EndInit();

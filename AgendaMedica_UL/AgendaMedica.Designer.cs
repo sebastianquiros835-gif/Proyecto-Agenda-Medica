@@ -54,7 +54,6 @@
             this.lblEstado = new System.Windows.Forms.Label();
             this.lblDepartamento = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnConsultar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -64,13 +63,14 @@
             // dgvConector
             // 
             this.dgvConector.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvConector.Location = new System.Drawing.Point(47, 275);
+            this.dgvConector.Location = new System.Drawing.Point(11, 257);
             this.dgvConector.Margin = new System.Windows.Forms.Padding(2);
             this.dgvConector.Name = "dgvConector";
             this.dgvConector.RowHeadersWidth = 51;
             this.dgvConector.RowTemplate.Height = 24;
-            this.dgvConector.Size = new System.Drawing.Size(537, 84);
+            this.dgvConector.Size = new System.Drawing.Size(673, 124);
             this.dgvConector.TabIndex = 0;
+            this.dgvConector.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConector_CellContentClick);
             this.dgvConector.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConector_CellContentClick);
             // 
             // btnConectar
@@ -97,21 +97,21 @@
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(541, 155);
+            this.txtID.Location = new System.Drawing.Point(491, 220);
             this.txtID.Margin = new System.Windows.Forms.Padding(2);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(74, 20);
+            this.txtID.Size = new System.Drawing.Size(93, 20);
             this.txtID.TabIndex = 3;
             this.txtID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnID
             // 
-            this.btnID.Location = new System.Drawing.Point(541, 194);
+            this.btnID.Location = new System.Drawing.Point(749, 212);
             this.btnID.Margin = new System.Windows.Forms.Padding(2);
             this.btnID.Name = "btnID";
             this.btnID.Size = new System.Drawing.Size(74, 28);
             this.btnID.TabIndex = 4;
-            this.btnID.Text = "Buscar ID";
+            this.btnID.Text = "Consultar ID";
             this.btnID.UseVisualStyleBackColor = true;
             this.btnID.Click += new System.EventHandler(this.btnID_Click);
             // 
@@ -287,15 +287,6 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // btnConsultar
-            // 
-            this.btnConsultar.Location = new System.Drawing.Point(749, 216);
-            this.btnConsultar.Name = "btnConsultar";
-            this.btnConsultar.Size = new System.Drawing.Size(75, 23);
-            this.btnConsultar.TabIndex = 26;
-            this.btnConsultar.Text = "Consultar";
-            this.btnConsultar.UseVisualStyleBackColor = true;
-            // 
             // btnActualizar
             // 
             this.btnActualizar.Location = new System.Drawing.Point(749, 245);
@@ -304,6 +295,7 @@
             this.btnActualizar.TabIndex = 27;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnEliminar
             // 
@@ -313,6 +305,7 @@
             this.btnEliminar.TabIndex = 28;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnLimpiar
             // 
@@ -322,6 +315,7 @@
             this.btnLimpiar.TabIndex = 29;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // AgendaMedica
             // 
@@ -331,7 +325,6 @@
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnActualizar);
-            this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.lblDepartamento);
             this.Controls.Add(this.lblEstado);
@@ -396,7 +389,6 @@
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.Label lblDepartamento;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnConsultar;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnLimpiar;

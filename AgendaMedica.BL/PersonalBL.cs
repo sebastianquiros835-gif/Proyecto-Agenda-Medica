@@ -138,5 +138,15 @@ namespace AgendaMedica_BL
                     " no puede superar " + maximo + " caracteres.");
             }
         }
+
+        public void Eliminar(int idPersonal)
+        {
+            if (idPersonal <= 0)
+            {
+                throw new Exception("Seleccione un empleado válido.");
+            }
+
+            dal.Eliminar(idPersonal);
+        }
     }
 }

@@ -172,6 +172,30 @@ namespace AgendaMedica_DAL
 
             return valor.Trim();
         }
+
+        public void Eliminar(int idPersonal)
+        {
+            using (MySqlConnection conexion = ConexionBD.ObtenerConexion())
+            {
+                conexion.Open();
+
+                string consulta =
+                    "DELETE FROM personal WHERE id_personal = @id";
+
+                using (MySqlCommand comando = new MySqlCommand(consulta, conexion))
+                {
+                    comando.Parameters.AddWithValue("@id", idPersonal);
+
+                    int filas = comando.ExecuteNonQuery();
+
+                    if (filas == 0)
+                    {
+                        throw new Exception("No se encontró el empleado.");
+                    }
+                }
+            }
+        }
+
     }
 }
 

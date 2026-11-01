@@ -20,7 +20,9 @@ namespace AgendaMedica_DAL
         public AgendaMedica()
         {
             InitializeComponent();
-            
+           
+           
+
         }
         private void CargarDepartamentos()
         {
@@ -54,6 +56,41 @@ namespace AgendaMedica_DAL
                 dgvConector.Columns["id_departamento"].Visible = false;
             }
         }
+
+        private void dgvConector_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0)
+                    return;
+
+                DataGridViewRow fila = dgvConector.Rows[e.RowIndex];
+
+                txtIDpersonal.Text = Convert.ToString(fila.Cells["id_personal"].Value);
+                txtIdentificacion.Text = Convert.ToString(fila.Cells["identificacion"].Value);
+                txtNombre.Text = Convert.ToString(fila.Cells["nombre"].Value);
+                txtApellidos.Text = Convert.ToString(fila.Cells["apellido"].Value);
+                txtTelefono.Text = Convert.ToString(fila.Cells["telefono"].Value);
+                txtCorreo.Text = Convert.ToString(fila.Cells["correo"].Value);
+                txtEspecialidad.Text = Convert.ToString(fila.Cells["especialidad"].Value);
+                txtRol.Text = Convert.ToString(fila.Cells["rol"].Value);
+
+                object departamento = fila.Cells["id_departamento"].Value;
+
+                if (departamento != null && departamento != DBNull.Value)
+                    cmbDepartamento.SelectedValue = departamento;
+                else
+                    cmbDepartamento.SelectedIndex = -1;
+
+                cmbEstado.SelectedItem =
+                    Convert.ToString(fila.Cells["estado"].Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar empleado: " + ex.Message);
+            }
+        }
+
         private void AgendaMedica_Load(object sender, EventArgs e)
         {
             try
@@ -129,10 +166,32 @@ namespace AgendaMedica_DAL
         // aqui se llena el datagridview con los datos de la tabla personal
         private void dgvConector_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            MySqlDataAdapter adaptador = new MySqlDataAdapter(consulta, ob);
-            DataTable tabla = new DataTable();
-            adaptador.Fill(tabla);
-            dgvConector.DataSource = tabla;
+            try
+            {
+                if (e.RowIndex < 0)
+                    return;
+
+                DataGridViewRow fila = dgvConector.Rows[e.RowIndex];
+
+                txtIDpersonal.Text = Convert.ToString(fila.Cells["id_personal"].Value);
+                txtIdentificacion.Text = Convert.ToString(fila.Cells["identificacion"].Value);
+                txtNombre.Text = Convert.ToString(fila.Cells["nombre"].Value);
+                txtApellidos.Text = Convert.ToString(fila.Cells["apellido"].Value);
+                txtTelefono.Text = Convert.ToString(fila.Cells["telefono"].Value);
+                txtCorreo.Text = Convert.ToString(fila.Cells["correo"].Value);
+                txtEspecialidad.Text = Convert.ToString(fila.Cells["especialidad"].Value);
+                txtRol.Text = Convert.ToString(fila.Cells["rol"].Value);
+
+                cmbDepartamento.SelectedValue =
+                    fila.Cells["id_departamento"].Value;
+
+                cmbEstado.SelectedItem =
+                    Convert.ToString(fila.Cells["estado"].Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar personal: " + ex.Message);
+            }
         }
 
         private static object GetCon()
@@ -149,7 +208,7 @@ namespace AgendaMedica_DAL
         // Este button nos permite buscar un ID en la base de datos y mostrar toda la información relacionada con ese ID en el DataGridView.
         private void btnID_Click(object sender, EventArgs e)
         {
-  
+
             int id;
 
             if (!int.TryParse(txtID.Text.Trim(), out id))
@@ -562,8 +621,143 @@ namespace AgendaMedica_DAL
                 );
             }
         }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Comprobar que exista un ID válido
+                int idPersonal;
+
+                if (!int.TryParse(txtIDpersonal.Text, out idPersonal))
+                {
+                    MessageBox.Show("Seleccione un empleado válido.");
+                    return;
+                }
+
+                // Comprobar el departamento seleccionado
+                if (cmbDepartamento.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Seleccione un departamento.");
+                    return;
+                }
+
+                // Obtener el ID del departamento
+                int idDepartamento =
+                    Convert.ToInt32(cmbDepartamento.SelectedValue);
+
+                // Enviar los datos a la capa BL
+                personalBL.Actualizar(
+                    idPersonal,
+                    txtNombre.Text,
+                    txtApellidos.Text,
+                    txtIdentificacion.Text,
+                    txtTelefono.Text,
+                    txtCorreo.Text,
+                    txtEspecialidad.Text,
+                    txtRol.Text,
+                    cmbEstado.SelectedItem.ToString(),
+                    idDepartamento
+                );
+
+                // Actualizar la tabla
+                CargarPersonal();
+
+                MessageBox.Show(
+                    "Empleado actualizado correctamente.",
+                    "Actualización exitosa",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al actualizar: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+          
+            txtIDpersonal.Clear();
+            txtIdentificacion.Clear();
+            txtNombre.Clear();
+            txtApellidos.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+            txtEspecialidad.Clear();
+            txtRol.Clear();
+
+            cmbDepartamento.SelectedIndex = -1;
+            cmbEstado.SelectedIndex = -1;
+
+            dgvConector.ClearSelection();
+
+            txtNombre.Focus();
+        
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!int.TryParse(txtIDpersonal.Text, out int idPersonal))
+                {
+                    MessageBox.Show("Seleccione un empleado de la tabla.");
+                    return;
+                }
+
+                DialogResult respuesta = MessageBox.Show(
+                    "¿Está seguro de que desea eliminar permanentemente este empleado?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    personalBL.Eliminar(idPersonal);
+
+                    CargarPersonal();
+
+                    txtIDpersonal.Clear();
+                    txtIdentificacion.Clear();
+                    txtNombre.Clear();
+                    txtApellidos.Clear();
+                    txtTelefono.Clear();
+                    txtCorreo.Clear();
+                    txtEspecialidad.Clear();
+                    txtRol.Clear();
+
+                    cmbDepartamento.SelectedIndex = -1;
+                    cmbEstado.SelectedIndex = -1;
+
+                    MessageBox.Show("Empleado eliminado permanentemente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudo eliminar el empleado.\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+
+
+            }
+
+        }  
     }
-    }
+}
+       
+
 
     
 

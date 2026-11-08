@@ -753,7 +753,17 @@ namespace AgendaMedica_DAL
 
             }
 
-        }  
+        }
+
+        private void lblIDpersonal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtApellidos_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
        

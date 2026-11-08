@@ -37,21 +37,21 @@
             // dgvConector
             // 
             this.dgvConector.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvConector.Location = new System.Drawing.Point(174, 56);
-            this.dgvConector.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvConector.Location = new System.Drawing.Point(232, 69);
+            this.dgvConector.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvConector.Name = "dgvConector";
             this.dgvConector.RowHeadersWidth = 51;
             this.dgvConector.RowTemplate.Height = 24;
-            this.dgvConector.Size = new System.Drawing.Size(213, 101);
+            this.dgvConector.Size = new System.Drawing.Size(284, 124);
             this.dgvConector.TabIndex = 0;
             this.dgvConector.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvConector_CellContentClick);
             // 
             // btnConectar
             // 
-            this.btnConectar.Location = new System.Drawing.Point(239, 169);
-            this.btnConectar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConectar.Location = new System.Drawing.Point(319, 208);
+            this.btnConectar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnConectar.Name = "btnConectar";
-            this.btnConectar.Size = new System.Drawing.Size(68, 41);
+            this.btnConectar.Size = new System.Drawing.Size(91, 50);
             this.btnConectar.TabIndex = 1;
             this.btnConectar.Text = "Conectar ";
             this.btnConectar.UseVisualStyleBackColor = true;
@@ -59,10 +59,10 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(239, 225);
-            this.btnSalir.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSalir.Location = new System.Drawing.Point(331, 276);
+            this.btnSalir.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(50, 23);
+            this.btnSalir.Size = new System.Drawing.Size(67, 28);
             this.btnSalir.TabIndex = 2;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
@@ -70,13 +70,13 @@
             // 
             // form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnConectar);
             this.Controls.Add(this.dgvConector);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dgvConector)).EndInit();

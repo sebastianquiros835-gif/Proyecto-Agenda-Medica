@@ -764,6 +764,11 @@ namespace AgendaMedica_DAL
         {
 
         }
+
+        private void cmbDepartamento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
        

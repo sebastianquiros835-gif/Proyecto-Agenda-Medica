@@ -769,6 +769,36 @@ namespace AgendaMedica_DAL
         {
 
         }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtEspecialidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRol_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtIDpersonal_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtIdentificacion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblIdentificacion_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
        

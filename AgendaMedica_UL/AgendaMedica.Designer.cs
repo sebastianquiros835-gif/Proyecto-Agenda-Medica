@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgendaMedica));
             this.dgvConector = new System.Windows.Forms.DataGridView();
             this.btnConectar = new System.Windows.Forms.Button();
@@ -58,7 +59,9 @@
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvConector)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvConector
@@ -103,7 +106,7 @@
             this.txtID.Location = new System.Drawing.Point(819, 271);
             this.txtID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(150, 27);
+            this.txtID.Size = new System.Drawing.Size(150, 23);
             this.txtID.TabIndex = 3;
             this.txtID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -123,7 +126,7 @@
             this.txtNombre.Location = new System.Drawing.Point(146, 201);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(311, 27);
+            this.txtNombre.Size = new System.Drawing.Size(311, 23);
             this.txtNombre.TabIndex = 5;
             // 
             // txtTelefono
@@ -131,7 +134,7 @@
             this.txtTelefono.Location = new System.Drawing.Point(146, 250);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(311, 27);
+            this.txtTelefono.Size = new System.Drawing.Size(311, 23);
             this.txtTelefono.TabIndex = 6;
             this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
             // 
@@ -140,7 +143,7 @@
             this.txtCorreo.Location = new System.Drawing.Point(584, 250);
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(176, 27);
+            this.txtCorreo.Size = new System.Drawing.Size(176, 23);
             this.txtCorreo.TabIndex = 7;
             // 
             // txtIdentificacion
@@ -148,7 +151,7 @@
             this.txtIdentificacion.Location = new System.Drawing.Point(584, 347);
             this.txtIdentificacion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIdentificacion.Name = "txtIdentificacion";
-            this.txtIdentificacion.Size = new System.Drawing.Size(188, 27);
+            this.txtIdentificacion.Size = new System.Drawing.Size(188, 23);
             this.txtIdentificacion.TabIndex = 8;
             this.txtIdentificacion.TextChanged += new System.EventHandler(this.txtIdentificacion_TextChanged);
             // 
@@ -157,7 +160,7 @@
             this.txtRol.Location = new System.Drawing.Point(584, 297);
             this.txtRol.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtRol.Name = "txtRol";
-            this.txtRol.Size = new System.Drawing.Size(176, 27);
+            this.txtRol.Size = new System.Drawing.Size(176, 23);
             this.txtRol.TabIndex = 9;
             this.txtRol.TextChanged += new System.EventHandler(this.txtRol_TextChanged);
             // 
@@ -166,7 +169,7 @@
             this.txtApellidos.Location = new System.Drawing.Point(584, 206);
             this.txtApellidos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtApellidos.Name = "txtApellidos";
-            this.txtApellidos.Size = new System.Drawing.Size(178, 27);
+            this.txtApellidos.Size = new System.Drawing.Size(178, 23);
             this.txtApellidos.TabIndex = 10;
             this.txtApellidos.TextChanged += new System.EventHandler(this.txtApellidos_TextChanged);
             // 
@@ -249,7 +252,7 @@
             this.cmbDepartamento.Location = new System.Drawing.Point(146, 395);
             this.cmbDepartamento.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbDepartamento.Name = "cmbDepartamento";
-            this.cmbDepartamento.Size = new System.Drawing.Size(311, 28);
+            this.cmbDepartamento.Size = new System.Drawing.Size(311, 23);
             this.cmbDepartamento.TabIndex = 17;
             this.cmbDepartamento.SelectedIndexChanged += new System.EventHandler(this.cmbDepartamento_SelectedIndexChanged);
             // 
@@ -259,7 +262,7 @@
             this.cmbEstado.Location = new System.Drawing.Point(584, 401);
             this.cmbEstado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(178, 28);
+            this.cmbEstado.Size = new System.Drawing.Size(178, 23);
             this.cmbEstado.TabIndex = 18;
             // 
             // txtIDpersonal
@@ -267,7 +270,7 @@
             this.txtIDpersonal.Location = new System.Drawing.Point(146, 347);
             this.txtIDpersonal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIDpersonal.Name = "txtIDpersonal";
-            this.txtIDpersonal.Size = new System.Drawing.Size(311, 27);
+            this.txtIDpersonal.Size = new System.Drawing.Size(311, 23);
             this.txtIDpersonal.TabIndex = 19;
             this.txtIDpersonal.TextChanged += new System.EventHandler(this.txtIDpersonal_TextChanged);
             // 
@@ -289,7 +292,7 @@
             this.txtEspecialidad.Location = new System.Drawing.Point(146, 297);
             this.txtEspecialidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtEspecialidad.Name = "txtEspecialidad";
-            this.txtEspecialidad.Size = new System.Drawing.Size(311, 27);
+            this.txtEspecialidad.Size = new System.Drawing.Size(311, 23);
             this.txtEspecialidad.TabIndex = 21;
             this.txtEspecialidad.TextChanged += new System.EventHandler(this.txtEspecialidad_TextChanged);
             // 
@@ -373,14 +376,18 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // AgendaMedica
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(217)))), ((int)(((byte)(242)))));
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1200, 753);
+            this.ClientSize = new System.Drawing.Size(1200, 761);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnActualizar);
@@ -422,6 +429,7 @@
             this.Text = "Agenda Medica";
             this.Load += new System.EventHandler(this.AgendaMedica_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvConector)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -458,5 +466,6 @@
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

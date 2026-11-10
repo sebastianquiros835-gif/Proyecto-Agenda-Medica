@@ -15,13 +15,16 @@ namespace AgendaMedica_DAL
     public partial class AgendaMedica : Form
     {
         private readonly PersonalBL personalBL = new PersonalBL();
-
-
+        
+                
         public AgendaMedica()
         {
             InitializeComponent();
-           
-           
+
+            
+            errorProvider1.ContainerControl = this;
+            errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+        
 
         }
         private void CargarDepartamentos()
@@ -558,6 +561,63 @@ namespace AgendaMedica_DAL
 
             tabla.Rows.Add("", campo, informacion);
         }
+        private bool ValidarFormulario()
+        {
+            errorProvider1.Clear();
+
+            bool valido = true;
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                errorProvider1.SetError(txtNombre, "Ingrese el nombre.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtApellidos.Text))
+            {
+                errorProvider1.SetError(txtApellidos, "Ingrese los apellidos.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtIdentificacion.Text))
+            {
+                errorProvider1.SetError(txtIdentificacion, "Ingrese la identificación.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTelefono.Text))
+            {
+                errorProvider1.SetError(txtTelefono, "Ingrese el teléfono.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCorreo.Text))
+            {
+                errorProvider1.SetError(txtCorreo, "Ingrese el correo.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEspecialidad.Text))
+            {
+                errorProvider1.SetError(txtEspecialidad, "Ingrese la especialidad.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtRol.Text))
+            {
+                errorProvider1.SetError(txtRol, "Ingrese el rol.");
+                valido = false;
+            }
+
+            if (cmbDepartamento.SelectedIndex == -1 ||
+                cmbDepartamento.SelectedValue == null)
+            {
+                errorProvider1.SetError(cmbDepartamento, "Seleccione un departamento.");
+                valido = false;
+            }
+
+            return valido;
+        }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -569,6 +629,10 @@ namespace AgendaMedica_DAL
                 {
                     MessageBox.Show("Seleccione un departamento.");
                     cmbDepartamento.Focus();
+                    return;
+                }
+                if (!ValidarFormulario())
+                {
                     return;
                 }
 
@@ -625,7 +689,13 @@ namespace AgendaMedica_DAL
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             try
-            {
+            {    // Validar que todos los campos estén completos
+                 // Si existe algún error, se detiene la actualización
+                if (!ValidarFormulario())
+                {
+                    return;
+                }
+
                 // Comprobar que exista un ID válido
                 int idPersonal;
 
@@ -683,7 +753,10 @@ namespace AgendaMedica_DAL
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-          
+            // Limpiar todos los mensajes de error del ErrorProvider
+            errorProvider1.Clear();
+
+            // Limpiar los campos de texto
             txtIDpersonal.Clear();
             txtIdentificacion.Clear();
             txtNombre.Clear();
@@ -801,8 +874,4 @@ namespace AgendaMedica_DAL
         }
     }
 }
-       
-
-
     
-

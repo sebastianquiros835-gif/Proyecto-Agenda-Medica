@@ -20,8 +20,8 @@ namespace AgendaMedica_DAL
         public AgendaMedica()
         {
             InitializeComponent();
+            AgendaMedica_DAL.Estilo.Aplicar(this);
 
-            
             errorProvider1.ContainerControl = this;
             errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
         
@@ -125,6 +125,8 @@ namespace AgendaMedica_DAL
 );
         private string consulta;
         private static object con;
+
+        public object Estilo { get; }
 
 
         //en esta parte se hace la conexion a la base de datos y se llena el datagridview con los datos de la tabla personal
@@ -869,6 +871,46 @@ namespace AgendaMedica_DAL
         }
 
         private void lblIdentificacion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblApellido_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCorreo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblEspecialidad_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblEstado_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblRol_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNombre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTelefono_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDepartamento_Click(object sender, EventArgs e)
         {
 
         }

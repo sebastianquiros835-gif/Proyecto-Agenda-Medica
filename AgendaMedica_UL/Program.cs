@@ -1,5 +1,4 @@
-﻿using AgendaMedica_DAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace AgendaMedica_UL
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AgendaMedica_DAL.AgendaMedica());
+            Application.Run(new frmMenu());
         }
     }
 }

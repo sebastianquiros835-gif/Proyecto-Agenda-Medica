@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cita.cs" />
+    <Compile Include="CitaBL.cs" />
     <Compile Include="ConexionBL.cs" />
     <Compile Include="FichaPersonalBL.cs" />
     <Compile Include="Paciente.cs" />

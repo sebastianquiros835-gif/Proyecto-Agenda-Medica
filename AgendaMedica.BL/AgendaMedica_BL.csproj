@@ -96,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConexionBL.cs" />
+    <Compile Include="FichaPersonalBL.cs" />
+    <Compile Include="Paciente.cs" />
+    <Compile Include="PacienteBL.cs" />
     <Compile Include="PersonalBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceValidacion.cs" />

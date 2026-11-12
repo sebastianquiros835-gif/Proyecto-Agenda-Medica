@@ -18,9 +18,7 @@ namespace AgendaMedica_UL
 
         private void btnPacientes_Click(object sender, EventArgs e)
         {
-            // Temporal: se reemplaza por Abrir(new frmPacientes()) cuando exista la pantalla.
-            MessageBox.Show("El módulo de pacientes se agregará próximamente.", "Pacientes",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Abrir(new frmPacientes());
         }
 
         private void btnCitas_Click(object sender, EventArgs e)

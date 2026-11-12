@@ -1,4 +1,6 @@
-﻿namespace AgendaMedica_DAL
+﻿using System;
+
+namespace AgendaMedica_DAL
 {
     partial class AgendaMedica
     {
@@ -106,7 +108,7 @@
             this.txtID.Location = new System.Drawing.Point(819, 271);
             this.txtID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(150, 23);
+            this.txtID.Size = new System.Drawing.Size(150, 27);
             this.txtID.TabIndex = 3;
             this.txtID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -126,7 +128,7 @@
             this.txtNombre.Location = new System.Drawing.Point(146, 196);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(311, 23);
+            this.txtNombre.Size = new System.Drawing.Size(311, 27);
             this.txtNombre.TabIndex = 5;
             // 
             // txtTelefono
@@ -134,7 +136,7 @@
             this.txtTelefono.Location = new System.Drawing.Point(146, 250);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(311, 23);
+            this.txtTelefono.Size = new System.Drawing.Size(311, 27);
             this.txtTelefono.TabIndex = 6;
             this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
             // 
@@ -143,7 +145,7 @@
             this.txtCorreo.Location = new System.Drawing.Point(621, 250);
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(176, 23);
+            this.txtCorreo.Size = new System.Drawing.Size(176, 27);
             this.txtCorreo.TabIndex = 7;
             // 
             // txtIdentificacion
@@ -151,7 +153,7 @@
             this.txtIdentificacion.Location = new System.Drawing.Point(621, 340);
             this.txtIdentificacion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIdentificacion.Name = "txtIdentificacion";
-            this.txtIdentificacion.Size = new System.Drawing.Size(188, 23);
+            this.txtIdentificacion.Size = new System.Drawing.Size(188, 27);
             this.txtIdentificacion.TabIndex = 8;
             this.txtIdentificacion.TextChanged += new System.EventHandler(this.txtIdentificacion_TextChanged);
             // 
@@ -160,7 +162,7 @@
             this.txtRol.Location = new System.Drawing.Point(621, 298);
             this.txtRol.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtRol.Name = "txtRol";
-            this.txtRol.Size = new System.Drawing.Size(176, 23);
+            this.txtRol.Size = new System.Drawing.Size(176, 27);
             this.txtRol.TabIndex = 9;
             this.txtRol.TextChanged += new System.EventHandler(this.txtRol_TextChanged);
             // 
@@ -169,7 +171,7 @@
             this.txtApellidos.Location = new System.Drawing.Point(621, 201);
             this.txtApellidos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtApellidos.Name = "txtApellidos";
-            this.txtApellidos.Size = new System.Drawing.Size(178, 23);
+            this.txtApellidos.Size = new System.Drawing.Size(178, 27);
             this.txtApellidos.TabIndex = 10;
             this.txtApellidos.TextChanged += new System.EventHandler(this.txtApellidos_TextChanged);
             // 
@@ -207,7 +209,7 @@
             this.lblTelefono.Location = new System.Drawing.Point(37, 241);
             this.lblTelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTelefono.Name = "lblTelefono";
-            this.lblTelefono.Size = new System.Drawing.Size(101, 41);
+            this.lblTelefono.Size = new System.Drawing.Size(137, 41);
             this.lblTelefono.TabIndex = 14;
             this.lblTelefono.Text = "Telefono";
             this.lblTelefono.Click += new System.EventHandler(this.lblTelefono_Click);
@@ -244,7 +246,7 @@
             this.cmbDepartamento.Location = new System.Drawing.Point(621, 390);
             this.cmbDepartamento.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbDepartamento.Name = "cmbDepartamento";
-            this.cmbDepartamento.Size = new System.Drawing.Size(122, 23);
+            this.cmbDepartamento.Size = new System.Drawing.Size(122, 28);
             this.cmbDepartamento.TabIndex = 17;
             this.cmbDepartamento.SelectedIndexChanged += new System.EventHandler(this.cmbDepartamento_SelectedIndexChanged);
             // 
@@ -254,15 +256,15 @@
             this.cmbEstado.Location = new System.Drawing.Point(146, 400);
             this.cmbEstado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(178, 23);
+            this.cmbEstado.Size = new System.Drawing.Size(178, 28);
             this.cmbEstado.TabIndex = 18;
             // 
             // txtIDpersonal
             // 
-            this.txtIDpersonal.Location = new System.Drawing.Point(157, 349);
+            this.txtIDpersonal.Location = new System.Drawing.Point(209, 349);
             this.txtIDpersonal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtIDpersonal.Name = "txtIDpersonal";
-            this.txtIDpersonal.Size = new System.Drawing.Size(311, 23);
+            this.txtIDpersonal.Size = new System.Drawing.Size(264, 27);
             this.txtIDpersonal.TabIndex = 19;
             this.txtIDpersonal.TextChanged += new System.EventHandler(this.txtIDpersonal_TextChanged);
             // 
@@ -275,17 +277,17 @@
             this.lblIDpersonal.Location = new System.Drawing.Point(37, 343);
             this.lblIDpersonal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIDpersonal.Name = "lblIDpersonal";
-            this.lblIDpersonal.Size = new System.Drawing.Size(131, 30);
+            this.lblIDpersonal.Size = new System.Drawing.Size(171, 37);
             this.lblIDpersonal.TabIndex = 20;
             this.lblIDpersonal.Text = "ID personal ";
             this.lblIDpersonal.Click += new System.EventHandler(this.lblIDpersonal_Click);
             // 
             // txtEspecialidad
             // 
-            this.txtEspecialidad.Location = new System.Drawing.Point(146, 300);
+            this.txtEspecialidad.Location = new System.Drawing.Point(209, 296);
             this.txtEspecialidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtEspecialidad.Name = "txtEspecialidad";
-            this.txtEspecialidad.Size = new System.Drawing.Size(290, 23);
+            this.txtEspecialidad.Size = new System.Drawing.Size(248, 27);
             this.txtEspecialidad.TabIndex = 21;
             this.txtEspecialidad.TextChanged += new System.EventHandler(this.txtEspecialidad_TextChanged);
             // 
@@ -297,7 +299,7 @@
             this.lblEspecialidad.Location = new System.Drawing.Point(37, 289);
             this.lblEspecialidad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEspecialidad.Name = "lblEspecialidad";
-            this.lblEspecialidad.Size = new System.Drawing.Size(143, 34);
+            this.lblEspecialidad.Size = new System.Drawing.Size(179, 34);
             this.lblEspecialidad.TabIndex = 22;
             this.lblEspecialidad.Text = "Especialidad";
             this.lblEspecialidad.Click += new System.EventHandler(this.lblEspecialidad_Click);
@@ -386,14 +388,14 @@
             this.lblApellido.Location = new System.Drawing.Point(476, 192);
             this.lblApellido.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblApellido.Name = "lblApellido";
-            this.lblApellido.Size = new System.Drawing.Size(105, 30);
+            this.lblApellido.Size = new System.Drawing.Size(138, 37);
             this.lblApellido.TabIndex = 17;
             this.lblApellido.Text = "Apellidos";
             this.lblApellido.Click += new System.EventHandler(this.lblApellido_Click);
             // 
             // AgendaMedica
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(217)))), ((int)(((byte)(242)))));
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
@@ -444,6 +446,36 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void lblDepartamento_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblEstado_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblEspecialidad_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblRol_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblTelefono_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblNombre_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

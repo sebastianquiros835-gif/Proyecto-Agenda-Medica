@@ -3,6 +3,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using AgendaMedica_DAL;
 
+
 namespace AgendaMedica_BL
 {
     public class PacienteBL

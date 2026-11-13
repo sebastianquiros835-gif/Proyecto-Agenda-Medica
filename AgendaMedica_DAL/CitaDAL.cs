@@ -26,14 +26,17 @@ namespace AgendaMedica_DAL
 
         // La colación de la base (utf8mb4_0900_ai_ci) ignora tildes y mayúsculas:
         // 'Medico', 'médico' y 'Médico' coinciden con rol = 'Médico'.
+        // Personal activo cuyo rol está marcado como "atiende citas" en la tabla roles.
         public DataTable ObtenerMedicos()
         {
             return Consultar(@"
-                SELECT id_personal,
-                       CONCAT(nombre, ' ', apellido) AS nombre_completo
-                FROM personal
-                WHERE rol = 'Médico' AND estado = 'Activo'
-                ORDER BY nombre, apellido");
+        SELECT p.id_personal,
+               CONCAT_WS(' - ', CONCAT(p.nombre, ' ', p.apellido), p.rol)
+                   AS nombre_completo
+        FROM personal p
+        INNER JOIN roles r ON r.nombre = p.rol
+        WHERE p.estado = 'Activo' AND r.atiende_citas = 1
+        ORDER BY p.nombre, p.apellido");
         }
 
         public DataTable ObtenerPacientesActivos()
@@ -57,8 +60,11 @@ namespace AgendaMedica_DAL
 
         public bool MedicoActivo(int idMedico)
         {
-            return Contar(
-                "SELECT COUNT(*) FROM personal WHERE id_personal = @id AND rol = 'Médico' AND estado = 'Activo'",
+            return Contar(@"
+        SELECT COUNT(*)
+        FROM personal p
+        INNER JOIN roles r ON r.nombre = p.rol
+        WHERE p.id_personal = @id AND p.estado = 'Activo' AND r.atiende_citas = 1",
                 new MySqlParameter("@id", idMedico)) > 0;
         }
 

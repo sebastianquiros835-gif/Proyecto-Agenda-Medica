@@ -21,6 +21,12 @@ namespace AgendaMedica_BL
         public DataTable ObtenerMedicos() { return dal.ObtenerMedicos(); }
         public DataTable ObtenerPacientes() { return dal.ObtenerPacientesActivos(); }
 
+        // Médicos que atienden citas y que trabajan durante todo el rango de la cita.
+        public DataTable ObtenerMedicosDisponibles(DateTime inicio, int duracionMin)
+        {
+            return dal.ObtenerMedicosDisponibles(inicio, inicio.AddMinutes(duracionMin));
+        }
+
         // ---------- Operaciones ----------
 
         public void Agendar(Cita c)
@@ -144,7 +150,7 @@ namespace AgendaMedica_BL
                 throw new Exception("El paciente no existe o está inactivo.");
 
             if (!dal.MedicoActivo(c.IdMedico))
-                throw new Exception("El médico no existe, está inactivo o su rol no es Médico.");
+                throw new Exception("El profesional no existe, está inactivo o su rol no atiende citas.");
 
             if (!dal.MedicoTieneTurno(c.IdMedico, c.FechaHoraInicio, c.FechaHoraFin))
                 throw new Exception("El médico no tiene un turno asignado que cubra ese horario.");

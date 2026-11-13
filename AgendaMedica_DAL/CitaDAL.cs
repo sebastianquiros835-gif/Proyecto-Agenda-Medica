@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Data;
+using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 
@@ -24,19 +27,42 @@ namespace AgendaMedica_DAL
                 ORDER BY c.fecha_hora_inicio");
         }
 
-        // La colación de la base (utf8mb4_0900_ai_ci) ignora tildes y mayúsculas:
-        // 'Medico', 'médico' y 'Médico' coinciden con rol = 'Médico'.
         // Personal activo cuyo rol está marcado como "atiende citas" en la tabla roles.
         public DataTable ObtenerMedicos()
         {
             return Consultar(@"
-        SELECT p.id_personal,
-               CONCAT_WS(' - ', CONCAT(p.nombre, ' ', p.apellido), p.rol)
-                   AS nombre_completo
-        FROM personal p
-        INNER JOIN roles r ON r.nombre = p.rol
-        WHERE p.estado = 'Activo' AND r.atiende_citas = 1
-        ORDER BY p.nombre, p.apellido");
+                SELECT p.id_personal,
+                       CONCAT_WS(' - ', CONCAT(p.nombre, ' ', p.apellido), p.rol)
+                           AS nombre_completo
+                FROM personal p
+                INNER JOIN roles r ON r.nombre = p.rol
+                WHERE p.estado = 'Activo' AND r.atiende_citas = 1
+                ORDER BY p.nombre, p.apellido");
+        }
+
+        // Médicos que además tienen un turno que cubre todo el rango [inicio, fin] ese día.
+        // Si el rango cruza la medianoche no cabe en ningún turno y no devuelve a nadie.
+        public DataTable ObtenerMedicosDisponibles(DateTime inicio, DateTime fin)
+        {
+            return Consultar(@"
+                SELECT DISTINCT p.id_personal,
+                       CONCAT_WS(' - ', CONCAT(p.nombre, ' ', p.apellido), p.rol)
+                           AS nombre_completo
+                FROM personal p
+                INNER JOIN roles    r ON r.nombre = p.rol
+                INNER JOIN horarios h ON h.id_personal = p.id_personal
+                INNER JOIN turnos   t ON t.id_turno = h.id_turno
+                WHERE p.estado = 'Activo'
+                  AND r.atiende_citas = 1
+                  AND @mismoDia = 1
+                  AND h.fecha = @fecha
+                  AND @horaInicio >= t.hora_inicio
+                  AND @horaFin    <= t.hora_fin
+                ORDER BY nombre_completo",
+                new MySqlParameter("@mismoDia", inicio.Date == fin.Date ? 1 : 0),
+                new MySqlParameter("@fecha", inicio.Date),
+                new MySqlParameter("@horaInicio", inicio.TimeOfDay),
+                new MySqlParameter("@horaFin", fin.TimeOfDay));
         }
 
         public DataTable ObtenerPacientesActivos()
@@ -61,10 +87,10 @@ namespace AgendaMedica_DAL
         public bool MedicoActivo(int idMedico)
         {
             return Contar(@"
-        SELECT COUNT(*)
-        FROM personal p
-        INNER JOIN roles r ON r.nombre = p.rol
-        WHERE p.id_personal = @id AND p.estado = 'Activo' AND r.atiende_citas = 1",
+                SELECT COUNT(*)
+                FROM personal p
+                INNER JOIN roles r ON r.nombre = p.rol
+                WHERE p.id_personal = @id AND p.estado = 'Activo' AND r.atiende_citas = 1",
                 new MySqlParameter("@id", idMedico)) > 0;
         }
 
@@ -213,11 +239,12 @@ namespace AgendaMedica_DAL
             return string.IsNullOrWhiteSpace(valor) ? (object)DBNull.Value : valor;
         }
 
-        private static DataTable Consultar(string sql)
+        private static DataTable Consultar(string sql, params MySqlParameter[] parametros)
         {
             using (MySqlConnection cn = ConexionBD.ObtenerConexion())
             using (MySqlDataAdapter da = new MySqlDataAdapter(sql, cn))
             {
+                da.SelectCommand.Parameters.AddRange(parametros);
                 DataTable tabla = new DataTable();
                 da.Fill(tabla);
                 return tabla;

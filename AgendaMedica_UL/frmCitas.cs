@@ -10,6 +10,9 @@ namespace AgendaMedica_UL
     {
         private readonly CitaBL citaBL = new CitaBL();
 
+        // Evita recargar el combo de médicos mientras se rellenan varios campos a la vez.
+        private bool actualizando = false;
+
         public frmCitas()
         {
             InitializeComponent();
@@ -22,6 +25,10 @@ namespace AgendaMedica_UL
                 CargarCombos();
                 CargarCitas();
                 LimpiarFormulario();
+
+                // Cuando cambia la fecha, la hora o la duración, se actualizan los médicos disponibles.
+                dtpFecha.ValueChanged += CambioHorario;
+                nudDuracion.ValueChanged += CambioHorario;
             }
             catch (Exception ex)
             {
@@ -37,12 +44,27 @@ namespace AgendaMedica_UL
             cmbPaciente.DisplayMember = "nombre_completo";
             cmbPaciente.ValueMember = "id_paciente";
 
-            cmbMedico.DataSource = citaBL.ObtenerMedicos();
-            cmbMedico.DisplayMember = "nombre_completo";
-            cmbMedico.ValueMember = "id_personal";
-
             cmbGravedad.Items.Clear();
             cmbGravedad.Items.AddRange(CitaBL.Gravedades);
+        }
+
+        // Muestra solo a los médicos que trabajan durante todo el rango fecha/hora + duración.
+        private void CargarMedicosDisponibles()
+        {
+            object seleccionado = cmbMedico.SelectedValue;
+
+            DataTable medicos = citaBL.ObtenerMedicosDisponibles(
+                FechaHoraElegida(), Convert.ToInt32(nudDuracion.Value));
+
+            cmbMedico.DataSource = medicos;
+            cmbMedico.DisplayMember = "nombre_completo";
+            cmbMedico.ValueMember = "id_personal";
+            lblMedico.Text = "Médico (" + medicos.Rows.Count + ")";
+
+            // Se conserva la selección anterior solo si ese médico sigue disponible.
+            cmbMedico.SelectedIndex = -1;
+            if (seleccionado != null)
+                cmbMedico.SelectedValue = seleccionado;
         }
 
         private void CargarCitas()
@@ -55,6 +77,21 @@ namespace AgendaMedica_UL
                 dgvCitas.Columns["id_medico"].Visible = false;
             if (dgvCitas.Columns.Contains("fecha_hora_inicio"))
                 dgvCitas.Columns["fecha_hora_inicio"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+        }
+
+        private void CambioHorario(object sender, EventArgs e)
+        {
+            if (actualizando)
+                return;
+
+            try
+            {
+                CargarMedicosDisponibles();
+            }
+            catch (Exception ex)
+            {
+                MostrarError("Error al buscar los médicos disponibles", ex);
+            }
         }
 
         // ---------- Botones ----------
@@ -178,11 +215,15 @@ namespace AgendaMedica_UL
 
                 txtIdCita.Text = Texto(fila, "id_cita");
 
-                cmbPaciente.SelectedValue = fila.Cells["id_paciente"].Value;
-                cmbMedico.SelectedValue = fila.Cells["id_medico"].Value;
-
+                // Primero fecha y duración, para que el combo de médicos se arme con ese horario.
+                actualizando = true;
                 dtpFecha.Value = Convert.ToDateTime(fila.Cells["fecha_hora_inicio"].Value);
                 nudDuracion.Value = Convert.ToDecimal(fila.Cells["duracion_min"].Value);
+                actualizando = false;
+                CargarMedicosDisponibles();
+
+                cmbPaciente.SelectedValue = fila.Cells["id_paciente"].Value;
+                cmbMedico.SelectedValue = fila.Cells["id_medico"].Value;
                 cmbGravedad.SelectedItem = Texto(fila, "gravedad");
 
                 txtMotivo.Text = Texto(fila, "motivo");
@@ -191,25 +232,30 @@ namespace AgendaMedica_UL
             }
             catch (Exception ex)
             {
+                actualizando = false;
                 MostrarError("Error al seleccionar la cita", ex);
             }
         }
 
         // ---------- Auxiliares ----------
 
+        // Fecha y hora elegidas, sin segundos, para que las comparaciones de horario sean exactas.
+        private DateTime FechaHoraElegida()
+        {
+            DateTime v = dtpFecha.Value;
+            return new DateTime(v.Year, v.Month, v.Day, v.Hour, v.Minute, 0);
+        }
+
         // Arma la entidad con lo que hay en pantalla. Las reglas las valida la BL.
         private Cita LeerCita()
         {
-            DateTime v = dtpFecha.Value;
-
             return new Cita
             {
                 IdPaciente = cmbPaciente.SelectedValue == null
                     ? 0 : Convert.ToInt32(cmbPaciente.SelectedValue),
                 IdMedico = cmbMedico.SelectedValue == null
                     ? 0 : Convert.ToInt32(cmbMedico.SelectedValue),
-                // Se descartan los segundos para que las comparaciones de horario sean exactas.
-                FechaHoraInicio = new DateTime(v.Year, v.Month, v.Day, v.Hour, v.Minute, 0),
+                FechaHoraInicio = FechaHoraElegida(),
                 DuracionMin = Convert.ToInt32(nudDuracion.Value),
                 Motivo = txtMotivo.Text,
                 Gravedad = cmbGravedad.SelectedItem == null
@@ -226,17 +272,23 @@ namespace AgendaMedica_UL
 
         private void LimpiarFormulario()
         {
+            actualizando = true;
+
             txtIdCita.Clear();
             txtMotivo.Clear();
             txtDiagnostico.Clear();
             txtObservaciones.Clear();
 
             cmbPaciente.SelectedIndex = -1;
-            cmbMedico.SelectedIndex = -1;
             cmbGravedad.SelectedItem = "Leve";
 
             nudDuracion.Value = CitaBL.DuracionPorDefecto;
             dtpFecha.Value = DateTime.Today.AddDays(1).AddHours(8);
+
+            actualizando = false;
+
+            CargarMedicosDisponibles();
+            cmbMedico.SelectedIndex = -1;
         }
 
         private static string Texto(DataGridViewRow fila, string columna)

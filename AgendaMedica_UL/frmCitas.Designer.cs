@@ -19,6 +19,7 @@ namespace AgendaMedica_UL
             this.lblMedico = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
             this.lblDuracion = new System.Windows.Forms.Label();
+            this.lblTipo = new System.Windows.Forms.Label();
             this.lblGravedad = new System.Windows.Forms.Label();
             this.lblMotivo = new System.Windows.Forms.Label();
             this.lblIdCita = new System.Windows.Forms.Label();
@@ -27,7 +28,8 @@ namespace AgendaMedica_UL
             this.cmbPaciente = new System.Windows.Forms.ComboBox();
             this.cmbMedico = new System.Windows.Forms.ComboBox();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
-            this.nudDuracion = new System.Windows.Forms.NumericUpDown();
+            this.cmbDuracion = new System.Windows.Forms.ComboBox();
+            this.cmbTipo = new System.Windows.Forms.ComboBox();
             this.cmbGravedad = new System.Windows.Forms.ComboBox();
             this.txtMotivo = new System.Windows.Forms.TextBox();
             this.txtIdCita = new System.Windows.Forms.TextBox();
@@ -40,7 +42,6 @@ namespace AgendaMedica_UL
             this.btnEvaluar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvCitas = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDuracion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).BeginInit();
             this.SuspendLayout();
             //
@@ -72,17 +73,24 @@ namespace AgendaMedica_UL
             this.lblDuracion.Name = "lblDuracion";
             this.lblDuracion.Text = "Duración (min)";
             //
+            // lblTipo
+            //
+            this.lblTipo.AutoSize = true;
+            this.lblTipo.Location = new System.Drawing.Point(20, 164);
+            this.lblTipo.Name = "lblTipo";
+            this.lblTipo.Text = "Tipo de cita";
+            //
             // lblGravedad
             //
             this.lblGravedad.AutoSize = true;
-            this.lblGravedad.Location = new System.Drawing.Point(20, 164);
+            this.lblGravedad.Location = new System.Drawing.Point(20, 199);
             this.lblGravedad.Name = "lblGravedad";
             this.lblGravedad.Text = "Gravedad";
             //
             // lblMotivo
             //
             this.lblMotivo.AutoSize = true;
-            this.lblMotivo.Location = new System.Drawing.Point(20, 199);
+            this.lblMotivo.Location = new System.Drawing.Point(20, 234);
             this.lblMotivo.Name = "lblMotivo";
             this.lblMotivo.Text = "Motivo";
             //
@@ -129,26 +137,30 @@ namespace AgendaMedica_UL
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(260, 22);
             //
-            // nudDuracion
+            // cmbDuracion
             //
-            this.nudDuracion.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            this.nudDuracion.Location = new System.Drawing.Point(140, 125);
-            this.nudDuracion.Maximum = new decimal(new int[] { 120, 0, 0, 0 });
-            this.nudDuracion.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
-            this.nudDuracion.Name = "nudDuracion";
-            this.nudDuracion.Size = new System.Drawing.Size(100, 22);
-            this.nudDuracion.Value = new decimal(new int[] { 30, 0, 0, 0 });
+            this.cmbDuracion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDuracion.Location = new System.Drawing.Point(140, 125);
+            this.cmbDuracion.Name = "cmbDuracion";
+            this.cmbDuracion.Size = new System.Drawing.Size(100, 24);
+            //
+            // cmbTipo
+            //
+            this.cmbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTipo.Location = new System.Drawing.Point(140, 160);
+            this.cmbTipo.Name = "cmbTipo";
+            this.cmbTipo.Size = new System.Drawing.Size(260, 24);
             //
             // cmbGravedad
             //
             this.cmbGravedad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbGravedad.Location = new System.Drawing.Point(140, 160);
+            this.cmbGravedad.Location = new System.Drawing.Point(140, 195);
             this.cmbGravedad.Name = "cmbGravedad";
             this.cmbGravedad.Size = new System.Drawing.Size(260, 24);
             //
             // txtMotivo
             //
-            this.txtMotivo.Location = new System.Drawing.Point(140, 195);
+            this.txtMotivo.Location = new System.Drawing.Point(140, 230);
             this.txtMotivo.MaxLength = 200;
             this.txtMotivo.Name = "txtMotivo";
             this.txtMotivo.Size = new System.Drawing.Size(260, 22);
@@ -174,11 +186,11 @@ namespace AgendaMedica_UL
             this.txtObservaciones.Multiline = true;
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtObservaciones.Size = new System.Drawing.Size(400, 100);
+            this.txtObservaciones.Size = new System.Drawing.Size(400, 130);
             //
             // btnAgendar
             //
-            this.btnAgendar.Location = new System.Drawing.Point(20, 235);
+            this.btnAgendar.Location = new System.Drawing.Point(20, 275);
             this.btnAgendar.Name = "btnAgendar";
             this.btnAgendar.Size = new System.Drawing.Size(120, 36);
             this.btnAgendar.Text = "Agendar";
@@ -187,7 +199,7 @@ namespace AgendaMedica_UL
             //
             // btnActualizar
             //
-            this.btnActualizar.Location = new System.Drawing.Point(150, 235);
+            this.btnActualizar.Location = new System.Drawing.Point(150, 275);
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(120, 36);
             this.btnActualizar.Text = "Reprogramar";
@@ -196,7 +208,7 @@ namespace AgendaMedica_UL
             //
             // btnConfirmar
             //
-            this.btnConfirmar.Location = new System.Drawing.Point(280, 235);
+            this.btnConfirmar.Location = new System.Drawing.Point(280, 275);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(120, 36);
             this.btnConfirmar.Text = "Confirmar";
@@ -205,7 +217,7 @@ namespace AgendaMedica_UL
             //
             // btnCancelar
             //
-            this.btnCancelar.Location = new System.Drawing.Point(410, 235);
+            this.btnCancelar.Location = new System.Drawing.Point(410, 275);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(120, 36);
             this.btnCancelar.Text = "Cancelar cita";
@@ -214,7 +226,7 @@ namespace AgendaMedica_UL
             //
             // btnEvaluar
             //
-            this.btnEvaluar.Location = new System.Drawing.Point(540, 235);
+            this.btnEvaluar.Location = new System.Drawing.Point(540, 275);
             this.btnEvaluar.Name = "btnEvaluar";
             this.btnEvaluar.Size = new System.Drawing.Size(170, 36);
             this.btnEvaluar.Text = "Guardar evaluación";
@@ -223,7 +235,7 @@ namespace AgendaMedica_UL
             //
             // btnLimpiar
             //
-            this.btnLimpiar.Location = new System.Drawing.Point(720, 235);
+            this.btnLimpiar.Location = new System.Drawing.Point(720, 275);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(120, 36);
             this.btnLimpiar.Text = "Limpiar";
@@ -238,20 +250,20 @@ namespace AgendaMedica_UL
             this.dgvCitas.AllowUserToAddRows = false;
             this.dgvCitas.AllowUserToDeleteRows = false;
             this.dgvCitas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvCitas.Location = new System.Drawing.Point(20, 290);
+            this.dgvCitas.Location = new System.Drawing.Point(20, 330);
             this.dgvCitas.MultiSelect = false;
             this.dgvCitas.Name = "dgvCitas";
             this.dgvCitas.ReadOnly = true;
             this.dgvCitas.RowHeadersVisible = false;
             this.dgvCitas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCitas.Size = new System.Drawing.Size(1040, 360);
+            this.dgvCitas.Size = new System.Drawing.Size(1040, 350);
             this.dgvCitas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCitas_CellClick);
             //
             // frmCitas
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 671);
+            this.ClientSize = new System.Drawing.Size(1084, 701);
             this.Controls.Add(this.dgvCitas);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnEvaluar);
@@ -264,7 +276,8 @@ namespace AgendaMedica_UL
             this.Controls.Add(this.txtIdCita);
             this.Controls.Add(this.txtMotivo);
             this.Controls.Add(this.cmbGravedad);
-            this.Controls.Add(this.nudDuracion);
+            this.Controls.Add(this.cmbTipo);
+            this.Controls.Add(this.cmbDuracion);
             this.Controls.Add(this.dtpFecha);
             this.Controls.Add(this.cmbMedico);
             this.Controls.Add(this.cmbPaciente);
@@ -273,6 +286,7 @@ namespace AgendaMedica_UL
             this.Controls.Add(this.lblIdCita);
             this.Controls.Add(this.lblMotivo);
             this.Controls.Add(this.lblGravedad);
+            this.Controls.Add(this.lblTipo);
             this.Controls.Add(this.lblDuracion);
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.lblMedico);
@@ -281,7 +295,6 @@ namespace AgendaMedica_UL
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Citas";
             this.Load += new System.EventHandler(this.frmCitas_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudDuracion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -291,6 +304,7 @@ namespace AgendaMedica_UL
         private System.Windows.Forms.Label lblMedico;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Label lblDuracion;
+        private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.Label lblGravedad;
         private System.Windows.Forms.Label lblMotivo;
         private System.Windows.Forms.Label lblIdCita;
@@ -299,7 +313,8 @@ namespace AgendaMedica_UL
         private System.Windows.Forms.ComboBox cmbPaciente;
         private System.Windows.Forms.ComboBox cmbMedico;
         private System.Windows.Forms.DateTimePicker dtpFecha;
-        private System.Windows.Forms.NumericUpDown nudDuracion;
+        private System.Windows.Forms.ComboBox cmbDuracion;
+        private System.Windows.Forms.ComboBox cmbTipo;
         private System.Windows.Forms.ComboBox cmbGravedad;
         private System.Windows.Forms.TextBox txtMotivo;
         private System.Windows.Forms.TextBox txtIdCita;

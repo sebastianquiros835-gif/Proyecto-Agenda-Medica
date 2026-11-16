@@ -1,7 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Data;
-using System;
+﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 
@@ -18,7 +15,7 @@ namespace AgendaMedica_DAL
                 SELECT c.id_cita, c.id_paciente, c.id_medico,
                        CONCAT(pa.nombre, ' ', pa.apellido) AS paciente,
                        CONCAT(m.nombre, ' ', m.apellido)   AS medico,
-                       c.fecha_hora_inicio, c.duracion_min,
+                       c.fecha_hora_inicio, c.duracion_min, c.tipo,
                        c.gravedad, c.estado, c.motivo,
                        c.diagnostico, c.observaciones
                 FROM citas c
@@ -115,7 +112,7 @@ namespace AgendaMedica_DAL
                 new MySqlParameter("@horaFin", fin.TimeOfDay)) > 0;
         }
 
-        // Regla de solapamiento: solo cuentan citas activas del mismo médico.
+        // Regla de solapamiento del médico: solo cuentan citas activas del mismo médico.
         // idExcluir = 0 al crear; el id de la cita al reprogramarla.
         public bool HaySolapamiento(int idMedico, DateTime inicio, DateTime fin, int idExcluir)
         {
@@ -128,6 +125,24 @@ namespace AgendaMedica_DAL
                   AND fecha_hora_inicio < @fin
                   AND fecha_hora_fin    > @inicio",
                 new MySqlParameter("@medico", idMedico),
+                new MySqlParameter("@excluir", idExcluir),
+                new MySqlParameter("@inicio", inicio),
+                new MySqlParameter("@fin", fin)) > 0;
+        }
+
+        // Regla de citas simultáneas del paciente (con cualquier médico).
+        // Solo cuentan citas activas. idExcluir = 0 al crear; el id de la cita al reprogramarla.
+        public bool PacienteTieneCitaEnRango(int idPaciente, DateTime inicio, DateTime fin, int idExcluir)
+        {
+            return Contar(@"
+                SELECT COUNT(*)
+                FROM citas
+                WHERE id_paciente = @paciente
+                  AND estado IN ('Programada', 'Confirmada')
+                  AND id_cita <> @excluir
+                  AND fecha_hora_inicio < @fin
+                  AND fecha_hora_fin    > @inicio",
+                new MySqlParameter("@paciente", idPaciente),
                 new MySqlParameter("@excluir", idExcluir),
                 new MySqlParameter("@inicio", inicio),
                 new MySqlParameter("@fin", fin)) > 0;
@@ -150,38 +165,38 @@ namespace AgendaMedica_DAL
         // ---------- Escritura ----------
 
         public int Insertar(int idPaciente, int idMedico, DateTime inicio, int duracionMin,
-            string motivo, string gravedad, string observaciones)
+            string tipo, string motivo, string gravedad, string observaciones)
         {
             using (MySqlConnection cn = ConexionBD.ObtenerConexion())
             using (MySqlCommand cmd = new MySqlCommand(@"
                 INSERT INTO citas
-                    (id_paciente, id_medico, fecha_hora_inicio, duracion_min,
+                    (id_paciente, id_medico, fecha_hora_inicio, duracion_min, tipo,
                      motivo, gravedad, observaciones)
                 VALUES
-                    (@paciente, @medico, @inicio, @duracion,
+                    (@paciente, @medico, @inicio, @duracion, @tipo,
                      @motivo, @gravedad, @observaciones)", cn))
             {
                 AsignarParametros(cmd, idPaciente, idMedico, inicio, duracionMin,
-                    motivo, gravedad, observaciones);
+                    tipo, motivo, gravedad, observaciones);
                 cn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
 
         public int Actualizar(int idCita, int idPaciente, int idMedico, DateTime inicio,
-            int duracionMin, string motivo, string gravedad, string observaciones)
+            int duracionMin, string tipo, string motivo, string gravedad, string observaciones)
         {
             using (MySqlConnection cn = ConexionBD.ObtenerConexion())
             using (MySqlCommand cmd = new MySqlCommand(@"
                 UPDATE citas SET
                     id_paciente = @paciente, id_medico = @medico,
                     fecha_hora_inicio = @inicio, duracion_min = @duracion,
-                    motivo = @motivo, gravedad = @gravedad,
+                    tipo = @tipo, motivo = @motivo, gravedad = @gravedad,
                     observaciones = @observaciones
                 WHERE id_cita = @id", cn))
             {
                 AsignarParametros(cmd, idPaciente, idMedico, inicio, duracionMin,
-                    motivo, gravedad, observaciones);
+                    tipo, motivo, gravedad, observaciones);
                 cmd.Parameters.AddWithValue("@id", idCita);
                 cn.Open();
                 return cmd.ExecuteNonQuery();
@@ -223,12 +238,14 @@ namespace AgendaMedica_DAL
         // ---------- Auxiliares ----------
 
         private static void AsignarParametros(MySqlCommand cmd, int idPaciente, int idMedico,
-            DateTime inicio, int duracionMin, string motivo, string gravedad, string observaciones)
+            DateTime inicio, int duracionMin, string tipo, string motivo, string gravedad,
+            string observaciones)
         {
             cmd.Parameters.AddWithValue("@paciente", idPaciente);
             cmd.Parameters.AddWithValue("@medico", idMedico);
             cmd.Parameters.AddWithValue("@inicio", inicio);
             cmd.Parameters.AddWithValue("@duracion", duracionMin);
+            cmd.Parameters.AddWithValue("@tipo", tipo);
             cmd.Parameters.AddWithValue("@motivo", motivo);
             cmd.Parameters.AddWithValue("@gravedad", gravedad);
             cmd.Parameters.AddWithValue("@observaciones", ValorOpcional(observaciones));

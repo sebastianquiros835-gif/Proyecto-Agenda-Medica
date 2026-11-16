@@ -9,6 +9,7 @@ namespace AgendaMedica_BL
         public int IdMedico { get; set; }
         public DateTime FechaHoraInicio { get; set; }
         public int DuracionMin { get; set; }
+        public string Tipo { get; set; }
         public string Motivo { get; set; }
         public string Gravedad { get; set; }
         public string Estado { get; set; }

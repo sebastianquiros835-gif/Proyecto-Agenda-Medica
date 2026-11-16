@@ -9,9 +9,13 @@ namespace AgendaMedica_BL
     {
         private readonly CitaDAL dal = new CitaDAL();
 
-        public const int DuracionMinima = 10;
-        public const int DuracionMaxima = 120;
+        // RN-04: duraciones permitidas, en minutos.
+        public static readonly int[] Duraciones = { 30, 45, 60 };
         public const int DuracionPorDefecto = 30;
+
+        // RN-05: modalidades de cita.
+        public static readonly string[] Tipos = { "Presencial", "Virtual", "Urgencia" };
+        public const string TipoPorDefecto = "Presencial";
 
         public static readonly string[] Gravedades = { "Muy leve", "Leve", "Moderado", "Urgente" };
 
@@ -36,7 +40,7 @@ namespace AgendaMedica_BL
             ValidarCita(c, 0);
 
             if (dal.Insertar(c.IdPaciente, c.IdMedico, c.FechaHoraInicio, c.DuracionMin,
-                    c.Motivo, c.Gravedad, c.Observaciones) != 1)
+                    c.Tipo, c.Motivo, c.Gravedad, c.Observaciones) != 1)
                 throw new Exception("No se pudo agendar la cita.");
         }
 
@@ -54,7 +58,7 @@ namespace AgendaMedica_BL
             ValidarCita(c, c.IdCita);
 
             if (dal.Actualizar(c.IdCita, c.IdPaciente, c.IdMedico, c.FechaHoraInicio,
-                    c.DuracionMin, c.Motivo, c.Gravedad, c.Observaciones) != 1)
+                    c.DuracionMin, c.Tipo, c.Motivo, c.Gravedad, c.Observaciones) != 1)
                 throw new Exception("No se pudo actualizar la cita.");
         }
 
@@ -139,9 +143,11 @@ namespace AgendaMedica_BL
             if (Array.IndexOf(Gravedades, c.Gravedad) < 0)
                 throw new Exception("Seleccione una gravedad válida.");
 
-            if (c.DuracionMin < DuracionMinima || c.DuracionMin > DuracionMaxima)
-                throw new Exception("La duración debe estar entre " + DuracionMinima +
-                    " y " + DuracionMaxima + " minutos.");
+            if (Array.IndexOf(Tipos, c.Tipo) < 0)
+                throw new Exception("Seleccione el tipo de cita: Presencial, Virtual o Urgencia.");
+
+            if (Array.IndexOf(Duraciones, c.DuracionMin) < 0)
+                throw new Exception("La duración debe ser de 30, 45 o 60 minutos.");
 
             if (c.FechaHoraInicio <= DateTime.Now)
                 throw new Exception("La cita debe programarse en una fecha y hora futuras.");
@@ -157,15 +163,22 @@ namespace AgendaMedica_BL
 
             if (dal.HaySolapamiento(c.IdMedico, c.FechaHoraInicio, c.FechaHoraFin, idExcluir))
                 throw new Exception("El médico ya tiene otra cita en ese horario.");
+
+            // RN-03: un paciente no puede tener dos citas simultáneas, ni siquiera con médicos distintos.
+            if (dal.PacienteTieneCitaEnRango(c.IdPaciente, c.FechaHoraInicio, c.FechaHoraFin, idExcluir))
+                throw new Exception("El paciente ya tiene otra cita en ese horario.");
         }
 
         private static void Normalizar(Cita c)
         {
             c.Motivo = (c.Motivo ?? "").Trim();
             c.Gravedad = (c.Gravedad ?? "").Trim();
+            c.Tipo = (c.Tipo ?? "").Trim();
             c.Observaciones = (c.Observaciones ?? "").Trim();
             if (c.DuracionMin == 0)
                 c.DuracionMin = DuracionPorDefecto;
+            if (c.Tipo.Length == 0)
+                c.Tipo = TipoPorDefecto;
         }
     }
 }

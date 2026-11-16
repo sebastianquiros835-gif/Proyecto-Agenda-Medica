@@ -28,7 +28,7 @@ namespace AgendaMedica_UL
 
                 // Cuando cambia la fecha, la hora o la duración, se actualizan los médicos disponibles.
                 dtpFecha.ValueChanged += CambioHorario;
-                nudDuracion.ValueChanged += CambioHorario;
+                cmbDuracion.SelectedIndexChanged += CambioHorario;
             }
             catch (Exception ex)
             {
@@ -44,6 +44,13 @@ namespace AgendaMedica_UL
             cmbPaciente.DisplayMember = "nombre_completo";
             cmbPaciente.ValueMember = "id_paciente";
 
+            cmbDuracion.Items.Clear();
+            foreach (int minutos in CitaBL.Duraciones)
+                cmbDuracion.Items.Add(minutos);
+
+            cmbTipo.Items.Clear();
+            cmbTipo.Items.AddRange(CitaBL.Tipos);
+
             cmbGravedad.Items.Clear();
             cmbGravedad.Items.AddRange(CitaBL.Gravedades);
         }
@@ -54,7 +61,7 @@ namespace AgendaMedica_UL
             object seleccionado = cmbMedico.SelectedValue;
 
             DataTable medicos = citaBL.ObtenerMedicosDisponibles(
-                FechaHoraElegida(), Convert.ToInt32(nudDuracion.Value));
+                FechaHoraElegida(), DuracionElegida());
 
             cmbMedico.DataSource = medicos;
             cmbMedico.DisplayMember = "nombre_completo";
@@ -218,12 +225,14 @@ namespace AgendaMedica_UL
                 // Primero fecha y duración, para que el combo de médicos se arme con ese horario.
                 actualizando = true;
                 dtpFecha.Value = Convert.ToDateTime(fila.Cells["fecha_hora_inicio"].Value);
-                nudDuracion.Value = Convert.ToDecimal(fila.Cells["duracion_min"].Value);
+                cmbDuracion.SelectedIndex = cmbDuracion.Items.IndexOf(
+                    Convert.ToInt32(fila.Cells["duracion_min"].Value));
                 actualizando = false;
                 CargarMedicosDisponibles();
 
                 cmbPaciente.SelectedValue = fila.Cells["id_paciente"].Value;
                 cmbMedico.SelectedValue = fila.Cells["id_medico"].Value;
+                cmbTipo.SelectedItem = Texto(fila, "tipo");
                 cmbGravedad.SelectedItem = Texto(fila, "gravedad");
 
                 txtMotivo.Text = Texto(fila, "motivo");
@@ -246,6 +255,14 @@ namespace AgendaMedica_UL
             return new DateTime(v.Year, v.Month, v.Day, v.Hour, v.Minute, 0);
         }
 
+        // Duración elegida; si no hay ninguna seleccionada, se usa la duración por defecto.
+        private int DuracionElegida()
+        {
+            return cmbDuracion.SelectedItem == null
+                ? CitaBL.DuracionPorDefecto
+                : Convert.ToInt32(cmbDuracion.SelectedItem);
+        }
+
         // Arma la entidad con lo que hay en pantalla. Las reglas las valida la BL.
         private Cita LeerCita()
         {
@@ -256,7 +273,9 @@ namespace AgendaMedica_UL
                 IdMedico = cmbMedico.SelectedValue == null
                     ? 0 : Convert.ToInt32(cmbMedico.SelectedValue),
                 FechaHoraInicio = FechaHoraElegida(),
-                DuracionMin = Convert.ToInt32(nudDuracion.Value),
+                DuracionMin = DuracionElegida(),
+                Tipo = cmbTipo.SelectedItem == null
+                    ? "" : cmbTipo.SelectedItem.ToString(),
                 Motivo = txtMotivo.Text,
                 Gravedad = cmbGravedad.SelectedItem == null
                     ? "" : cmbGravedad.SelectedItem.ToString(),
@@ -280,9 +299,9 @@ namespace AgendaMedica_UL
             txtObservaciones.Clear();
 
             cmbPaciente.SelectedIndex = -1;
+            cmbTipo.SelectedItem = CitaBL.TipoPorDefecto;
             cmbGravedad.SelectedItem = "Leve";
-
-            nudDuracion.Value = CitaBL.DuracionPorDefecto;
+            cmbDuracion.SelectedIndex = cmbDuracion.Items.IndexOf(CitaBL.DuracionPorDefecto);
             dtpFecha.Value = DateTime.Today.AddDays(1).AddHours(8);
 
             actualizando = false;

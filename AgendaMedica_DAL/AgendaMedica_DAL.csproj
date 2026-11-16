@@ -98,19 +98,10 @@
     <Compile Include="CitaDAL.cs" />
     <Compile Include="ConexionBD.cs" />
     <Compile Include="FichaPersonalDAL.cs" />
-    <Compile Include="form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="form1.Designer.cs">
-      <DependentUpon>form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="MySqlconection.cs" />
     <Compile Include="PacienteDAL.cs" />
     <Compile Include="PersonalDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="form1.resx">
-      <DependentUpon>form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

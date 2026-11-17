@@ -17,11 +17,24 @@ namespace AgendaMedica_DAL
                        CONCAT(m.nombre, ' ', m.apellido)   AS medico,
                        c.fecha_hora_inicio, c.duracion_min, c.tipo,
                        c.gravedad, c.estado, c.motivo,
-                       c.diagnostico, c.observaciones
+                       c.diagnostico, c.observaciones,
+                       c.id_cita_origen AS cita_origen
                 FROM citas c
                 INNER JOIN pacientes pa ON c.id_paciente = pa.id_paciente
                 INNER JOIN personal  m  ON c.id_medico   = m.id_personal
                 ORDER BY c.fecha_hora_inicio");
+        }
+
+        // Datos de una cita para que la BL decida qué hacer. Devuelve null si no existe.
+        public DataRow ObtenerCita(int idCita)
+        {
+            DataTable tabla = Consultar(@"
+                SELECT id_cita, id_medico, fecha_hora_inicio, duracion_min, estado
+                FROM citas
+                WHERE id_cita = @id",
+                new MySqlParameter("@id", idCita));
+
+            return tabla.Rows.Count == 0 ? null : tabla.Rows[0];
         }
 
         // Personal activo cuyo rol está marcado como "atiende citas" en la tabla roles.
@@ -183,6 +196,7 @@ namespace AgendaMedica_DAL
             }
         }
 
+        // Corrige los datos de una cita sin cambiar su horario ni su médico.
         public int Actualizar(int idCita, int idPaciente, int idMedico, DateTime inicio,
             int duracionMin, string tipo, string motivo, string gravedad, string observaciones)
         {
@@ -200,6 +214,57 @@ namespace AgendaMedica_DAL
                 cmd.Parameters.AddWithValue("@id", idCita);
                 cn.Open();
                 return cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Reprogramación en una sola transacción: marca la cita original como Reprogramada
+        // y crea la cita nueva enlazada a ella. Si cualquiera de los dos pasos falla,
+        // no se guarda ninguno. Devuelve el id de la cita nueva.
+        public int Reprogramar(int idCitaOrigen, int idPaciente, int idMedico, DateTime inicio,
+            int duracionMin, string tipo, string motivo, string gravedad, string observaciones)
+        {
+            using (MySqlConnection cn = ConexionBD.ObtenerConexion())
+            {
+                cn.Open();
+                using (MySqlTransaction tx = cn.BeginTransaction())
+                {
+                    try
+                    {
+                        using (MySqlCommand marcar = new MySqlCommand(@"
+                            UPDATE citas SET estado = 'Reprogramada'
+                            WHERE id_cita = @id AND estado IN ('Programada', 'Confirmada')", cn, tx))
+                        {
+                            marcar.Parameters.AddWithValue("@id", idCitaOrigen);
+                            if (marcar.ExecuteNonQuery() != 1)
+                                throw new InvalidOperationException(
+                                    "La cita original ya no se puede reprogramar.");
+                        }
+
+                        int idNueva;
+                        using (MySqlCommand crear = new MySqlCommand(@"
+                            INSERT INTO citas
+                                (id_paciente, id_medico, fecha_hora_inicio, duracion_min, tipo,
+                                 motivo, gravedad, observaciones, id_cita_origen)
+                            VALUES
+                                (@paciente, @medico, @inicio, @duracion, @tipo,
+                                 @motivo, @gravedad, @observaciones, @origen)", cn, tx))
+                        {
+                            AsignarParametros(crear, idPaciente, idMedico, inicio, duracionMin,
+                                tipo, motivo, gravedad, observaciones);
+                            crear.Parameters.AddWithValue("@origen", idCitaOrigen);
+                            crear.ExecuteNonQuery();
+                            idNueva = Convert.ToInt32(crear.LastInsertedId);
+                        }
+
+                        tx.Commit();
+                        return idNueva;
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
             }
         }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace AgendaMedica_UL
 {
     partial class frmCitas
@@ -40,6 +42,7 @@ namespace AgendaMedica_UL
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnEvaluar = new System.Windows.Forms.Button();
+            this.btnNoAsistio = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvCitas = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).BeginInit();
@@ -233,9 +236,18 @@ namespace AgendaMedica_UL
             this.btnEvaluar.UseVisualStyleBackColor = true;
             this.btnEvaluar.Click += new System.EventHandler(this.btnEvaluar_Click);
             //
+            // btnNoAsistio
+            //
+            this.btnNoAsistio.Location = new System.Drawing.Point(720, 275);
+            this.btnNoAsistio.Name = "btnNoAsistio";
+            this.btnNoAsistio.Size = new System.Drawing.Size(120, 36);
+            this.btnNoAsistio.Text = "No asistió";
+            this.btnNoAsistio.UseVisualStyleBackColor = true;
+            this.btnNoAsistio.Click += new System.EventHandler(this.btnNoAsistio_Click);
+            //
             // btnLimpiar
             //
-            this.btnLimpiar.Location = new System.Drawing.Point(720, 275);
+            this.btnLimpiar.Location = new System.Drawing.Point(850, 275);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(120, 36);
             this.btnLimpiar.Text = "Limpiar";
@@ -266,6 +278,7 @@ namespace AgendaMedica_UL
             this.ClientSize = new System.Drawing.Size(1084, 701);
             this.Controls.Add(this.dgvCitas);
             this.Controls.Add(this.btnLimpiar);
+            this.Controls.Add(this.btnNoAsistio);
             this.Controls.Add(this.btnEvaluar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnConfirmar);
@@ -325,6 +338,7 @@ namespace AgendaMedica_UL
         private System.Windows.Forms.Button btnConfirmar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnEvaluar;
+        private System.Windows.Forms.Button btnNoAsistio;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridView dgvCitas;
     }

@@ -44,22 +44,43 @@ namespace AgendaMedica_BL
                 throw new Exception("No se pudo agendar la cita.");
         }
 
-        // Reprogramar o corregir una cita que todavía no se atendió ni se canceló.
-        public void Actualizar(Cita c)
+        // Si cambia el médico, la fecha, la hora o la duración, la cita se reprograma:
+        // en una sola transacción la original queda como Reprogramada y se crea una nueva.
+        // Si el horario no cambia, solo se corrigen los demás datos de la misma cita.
+        // Devuelve true si se creó una cita nueva y false si solo se actualizó la existente.
+        public bool Reprogramar(Cita c)
         {
             if (c.IdCita <= 0)
                 throw new Exception("Seleccione una cita de la tabla.");
 
-            string estado = EstadoActual(c.IdCita);
+            DataRow actual = dal.ObtenerCita(c.IdCita);
+            if (actual == null)
+                throw new Exception("La cita seleccionada no existe.");
+
+            string estado = Convert.ToString(actual["estado"]);
             if (estado != "Programada" && estado != "Confirmada")
-                throw new Exception("Solo se pueden modificar citas Programadas o Confirmadas.");
+                throw new Exception("Solo se pueden reprogramar citas Programadas o Confirmadas.");
 
             Normalizar(c);
+            // La cita original se excluye de las comprobaciones: va a dejar de estar activa.
             ValidarCita(c, c.IdCita);
 
-            if (dal.Actualizar(c.IdCita, c.IdPaciente, c.IdMedico, c.FechaHoraInicio,
-                    c.DuracionMin, c.Tipo, c.Motivo, c.Gravedad, c.Observaciones) != 1)
-                throw new Exception("No se pudo actualizar la cita.");
+            bool mismoHorario =
+                Convert.ToInt32(actual["id_medico"]) == c.IdMedico
+                && Convert.ToDateTime(actual["fecha_hora_inicio"]) == c.FechaHoraInicio
+                && Convert.ToInt32(actual["duracion_min"]) == c.DuracionMin;
+
+            if (mismoHorario)
+            {
+                if (dal.Actualizar(c.IdCita, c.IdPaciente, c.IdMedico, c.FechaHoraInicio,
+                        c.DuracionMin, c.Tipo, c.Motivo, c.Gravedad, c.Observaciones) != 1)
+                    throw new Exception("No se pudo actualizar la cita.");
+                return false;
+            }
+
+            dal.Reprogramar(c.IdCita, c.IdPaciente, c.IdMedico, c.FechaHoraInicio,
+                c.DuracionMin, c.Tipo, c.Motivo, c.Gravedad, c.Observaciones);
+            return true;
         }
 
         public void Confirmar(int idCita)
@@ -70,6 +91,27 @@ namespace AgendaMedica_BL
         public void Cancelar(int idCita)
         {
             CambiarEstado(idCita, "Cancelada");
+        }
+
+        // RN-07: el paciente no llegó. Solo se puede marcar cuando la hora de la cita ya pasó.
+        public void MarcarNoAsistio(int idCita)
+        {
+            if (idCita <= 0)
+                throw new Exception("Seleccione una cita de la tabla.");
+
+            DataRow actual = dal.ObtenerCita(idCita);
+            if (actual == null)
+                throw new Exception("La cita seleccionada no existe.");
+
+            string estado = Convert.ToString(actual["estado"]);
+            if (!TransicionValida(estado, "No asistió"))
+                throw new Exception("No se puede pasar una cita de " + estado + " a No asistió.");
+
+            if (Convert.ToDateTime(actual["fecha_hora_inicio"]) > DateTime.Now)
+                throw new Exception("Solo se puede marcar No asistió cuando la hora de la cita ya pasó.");
+
+            if (dal.CambiarEstado(idCita, "No asistió") != 1)
+                throw new Exception("No se pudo cambiar el estado de la cita.");
         }
 
         // El médico registra diagnóstico y observaciones; la cita pasa a Atendida.
@@ -95,8 +137,11 @@ namespace AgendaMedica_BL
 
         // ---------- Reglas ----------
 
-        // Estados: Programada -> Confirmada -> Atendida; Cancelada desde Programada o Confirmada.
-        // Atendida y Cancelada son finales.
+        // Estados:
+        //   Programada -> Confirmada, Cancelada, No asistió, Reprogramada
+        //   Confirmada -> Atendida, Cancelada, No asistió, Reprogramada
+        //   Atendida, Cancelada, No asistió y Reprogramada son finales.
+        // "Reprogramada" solo se asigna mediante Reprogramar(), nunca con CambiarEstado().
         private void CambiarEstado(int idCita, string nuevo)
         {
             if (idCita <= 0)
@@ -114,9 +159,12 @@ namespace AgendaMedica_BL
         {
             switch (actual)
             {
-                case "Programada": return nuevo == "Confirmada" || nuevo == "Cancelada";
-                case "Confirmada": return nuevo == "Atendida" || nuevo == "Cancelada";
-                default: return false;
+                case "Programada":
+                    return nuevo == "Confirmada" || nuevo == "Cancelada" || nuevo == "No asistió";
+                case "Confirmada":
+                    return nuevo == "Atendida" || nuevo == "Cancelada" || nuevo == "No asistió";
+                default:
+                    return false;
             }
         }
 
@@ -179,6 +227,11 @@ namespace AgendaMedica_BL
                 c.DuracionMin = DuracionPorDefecto;
             if (c.Tipo.Length == 0)
                 c.Tipo = TipoPorDefecto;
+        }
+
+        public void Actualizar(Cita cita)
+        {
+            throw new NotImplementedException();
         }
     }
 }

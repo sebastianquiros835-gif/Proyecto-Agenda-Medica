@@ -186,6 +186,23 @@ namespace AgendaMedica_UL
             }
         }
 
+        private void btnNoAsistio_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                citaBL.MarcarNoAsistio(IdSeleccionado());
+
+                CargarCitas();
+                LimpiarFormulario();
+                MessageBox.Show("La cita se marcó como no asistida.", "Citas",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MostrarError("No se pudo marcar la cita como no asistida", ex);
+            }
+        }
+
         private void btnEvaluar_Click(object sender, EventArgs e)
         {
             try
